@@ -17,6 +17,7 @@ void SceneMain::init()
 	m_hPlayerGraphic = LoadGraph("data/player.bmp");
 	m_hShotGraphic = LoadGraph("data/shot.bmp");
 
+	m_player.setMain(this);					//自身のポインタを渡すときはthis
 	m_player.setHandle(m_hPlayerGraphic);
 	m_player.init();
 
@@ -63,4 +64,17 @@ void SceneMain::draw()
 	{
 		shot.draw();
 	}
+}
+
+bool SceneMain::createShot(Vec2 pos)
+{
+	for (auto& shot : m_shot)
+	{
+		if (!shot.isExist())
+		{
+			shot.start(pos);
+			return true;
+		}
+	}
+	return false;
 }

@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "game.h"
 #include "player.h"
+#include "SceneMain.h"
 
 namespace
 {
@@ -9,9 +10,12 @@ namespace
 	constexpr float kAcc = 0.4f;
 }
 
-Player::Player()
+Player::Player() :
+	m_pMain(nullptr),
+	m_handle (-1),
+	m_pos(),
+	m_vec()
 {
-	m_handle = -1;
 }
 
 Player::~Player()
@@ -58,6 +62,14 @@ void Player::update()
 	else
 	{
 		m_vec.x *= 0.9f;
+	}
+	// ƒL[“ü—Íˆ—
+	if (padState & PAD_INPUT_1)
+	{
+		if (m_pMain)
+		{
+			m_pMain->createShot(m_pos);
+		}
 	}
 	m_pos += m_vec;
 }
