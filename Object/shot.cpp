@@ -4,11 +4,12 @@
 #include "Enemy.h"
 
 
-Shot::Shot() : 
+Shot::Shot() :
 	m_handle(-1),
 	m_isExist(false),			//コンストラクタ初期化子
 	m_pos(100.0f,100.f),		//最初に値を設定して初期化することが可能になり二度手間じゃなくなる
-	m_vec(8.0f, 0.0f)
+	m_vec(8.0f, 0.0f),
+	m_isPlayerShot(false)
 {
 }
 
@@ -26,8 +27,9 @@ void Shot::start(Vec2 pos)
 void Shot::update()
 {
 	if (!m_isExist)return;
-
 	m_pos += m_vec;
+
+
 	if (m_pos.x > Game::kScreenWidth)
 	{
 		m_isExist = false;
@@ -43,6 +45,9 @@ void Shot::draw()
 
 bool Shot::isCol(Enemy& enemy)
 {
+	//敵の撃った弾は当たらない
+	if (!m_isPlayerShot) return false;
+
 	if (!m_isExist) return false;								//弾が存在しない場合は当たらない
 	if (!enemy.isExist()) return false;							//敵が存在しない場合は当たらない
 

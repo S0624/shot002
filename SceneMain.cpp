@@ -21,6 +21,7 @@ void SceneMain::init()
 	m_player.setHandle(m_hPlayerGraphic);
 	m_player.init();
 
+	m_enemy.setMain(this);					//自身のポインタを渡すときはthis
 	m_enemy.setHandle(m_hPlayerGraphic);
 	m_enemy.init();
 
@@ -65,13 +66,23 @@ void SceneMain::draw()
 	}
 }
 
-bool SceneMain::createShot(Vec2 pos)
+bool SceneMain::createShot(Vec2 pos,bool isPlayer)
 {
 	for (auto& shot : m_shot)
 	{
 		if (!shot.isExist())
 		{
 			shot.start(pos);
+
+			Vec2 vec{ 8.0f,8.0f };
+			if (!isPlayer)
+			{
+				vec.x *= -1.0f;
+			}
+			shot.setVec(vec);
+			
+			shot.setPlayerShot(isPlayer);
+			
 			return true;
 		}
 	}
