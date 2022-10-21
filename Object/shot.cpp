@@ -1,6 +1,7 @@
 #include "DxLib.h"
 #include "shot.h"
 #include "game.h"
+#include "Enemy.h"
 
 
 Shot::Shot() : 
@@ -38,4 +39,31 @@ void Shot::draw()
 	if (!m_isExist)return;
 
 	DrawGraphF(m_pos.x, m_pos.y, m_handle, true);
+}
+
+bool Shot::isCol(Enemy& enemy)
+{
+	if (!m_isExist) return false;								//弾が存在しない場合は当たらない
+	if (!enemy.isExist()) return false;							//敵が存在しない場合は当たらない
+
+	float shotWidth = 0;
+	float shotHeight = 0;
+	GetGraphSizeF(m_handle, &shotWidth, &shotHeight);
+
+	float shotLeft		= m_pos.x;
+	float shotTop		= m_pos.y;
+	float shotRight		= m_pos.x + shotWidth;
+	float shotButtom	= m_pos.y + shotHeight;
+
+	float enemyLeft		= enemy.getPos().x;
+	float enemyTop		= enemy.getPos().y;
+	float enemyRight	= enemy.getPos().x + enemy.getColWidth();
+	float enemyButtom	= enemy.getPos().y + enemy.getColHeight();
+
+	if (enemyLeft > shotRight)return false;				//エネミーの左がショットの右より小さい場合
+	if (enemyTop > shotButtom)return false;				//エネミーの上がショットの下より小さい場合
+	if (enemyRight < shotLeft)return false;				//エネミーの右がショットの左より大きい場合
+	if (enemyButtom < shotTop)return false;				//エネミーの下がショットの上より大きい場合
+
+	return true;
 }

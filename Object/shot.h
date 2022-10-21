@@ -1,6 +1,8 @@
 #pragma once
 #include "Vec2.h"
 
+class Enemy;
+
 class Shot
 {
 public:
@@ -20,7 +22,9 @@ public:
 	// 存在するか
 	bool isExist()const { return m_isExist; }
 	void setExist(bool isExist) { m_isExist = isExist; }
-
+	
+	// 敵との当たり判定
+	bool isCol(Enemy& enemy);
 private:
 	// グラフィックハンドル
 	int m_handle;

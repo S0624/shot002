@@ -45,12 +45,11 @@ void SceneMain::update()
 	for (auto& shot : m_shot)
 	{
 		shot.update();
-	}
-
-	// ƒL[“ü—Íˆ—
-	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	if (padState & PAD_INPUT_1)
-	{
+		if (shot.isCol(m_enemy))
+		{
+			// “–‚½‚Á‚Ä‚¢‚éê‡‚Ìˆ—
+			m_enemy.setExist(false);
+		}
 	}
 }
 
